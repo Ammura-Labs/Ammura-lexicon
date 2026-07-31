@@ -1,0 +1,14 @@
+{% extends 'base.html' %}{% block title %}Creator Studio{% endblock %}{% block content %}
+<section class="hero"><p class="eyebrow">SCRIPT → CREATOR KIT</p><h1>Make every idea<br><em>ready to publish.</em></h1><p class="lede">Turn one master script into a polished voiceover, subtitles, a blog post, and concise notes — in one focused pass.</p></section>
+<form action="{{ url_for('generate') }}" method="post" enctype="multipart/form-data" class="studio-card" id="script-form">
+  <div class="input-head"><label for="script">Your master script</label><span id="word-count">0 words</span></div>
+  <textarea id="script" name="script" required maxlength="100000" placeholder="Paste your script here…"></textarea>
+  <div class="or"><span>OR</span></div>
+  <label class="upload-zone" for="script_file"><input id="script_file" name="script_file" type="file" accept=".txt,.md"><span class="upload-icon">↑</span><span><strong>Upload a text file</strong><small>.txt or .md, up to 2 MB</small></span></label>
+  <details id="dictionary"><summary>Custom pronunciation dictionary <span>Optional</span></summary><p>One correction per line: <code>original = spoken form</code>. Your changes override the built-in dictionary.</p><textarea class="dictionary" name="dictionary" placeholder="Notion = No-shun&#10;SaaS = sass"></textarea></details>
+  <label class="audio-option"><input type="checkbox" name="audio"><span><strong>Create an MP3 voiceover</strong><small>Optional · uses gTTS and requires internet access</small></span></label>
+  <button class="generate" type="submit"><span>Generate creator kit</span><b>→</b></button>
+  <p class="privacy">Your script is processed locally. It is never uploaded by this app.</p>
+</form>
+<section class="deliverables"><div><i>01</i><strong>Narrative</strong><span>Natural pacing for voiceover</span></div><div><i>02</i><strong>Subtitles</strong><span>Clean, timed SRT captions</span></div><div><i>03</i><strong>Blog + notes</strong><span>Ready-to-edit written assets</span></div></section>
+{% endblock %}
