@@ -1,5 +1,7 @@
 # Creator Studio — Script & Voiceover Assistant
 
+[![CI](https://github.com/Ammura-Labs/Ammura-lexicon/actions/workflows/ci.yml/badge.svg)](https://github.com/Ammura-Labs/Ammura-lexicon/actions/workflows/ci.yml)
+
 A local-first Flask application that turns a source script into a voiceover-ready narrative, timed SRT subtitles, a Markdown blog post, and concise notes. It includes default and custom pronunciation replacements, plus optional gTTS MP3 generation.
 
 ## Run locally
