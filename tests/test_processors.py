@@ -1,6 +1,11 @@
 import unittest
 
-from processors.pronunciation import apply_pronunciations, parse_custom_dictionary
+from processors.pronunciation import (
+    DICTIONARY_FILE,
+    apply_pronunciations,
+    load_default_dictionary,
+    parse_custom_dictionary,
+)
 from processors.subtitles import generate_subtitles
 from processors.notes import generate_notes
 
@@ -11,6 +16,19 @@ class ProcessorTests(unittest.TestCase):
         self.assertIn("gitt", result)
         self.assertIn("Wi-Fye", result)
         self.assertEqual(changes[0]["from"], "WiFi")
+
+    def test_default_dictionary_file_is_where_the_loader_looks(self):
+        self.assertTrue(DICTIONARY_FILE.is_file(), f"missing dictionary: {DICTIONARY_FILE}")
+
+    def test_default_dictionary_is_not_empty(self):
+        dictionary = load_default_dictionary()
+        self.assertGreater(len(dictionary), 100)
+        self.assertEqual(dictionary["Wi-Fi"], "Wi Fi")
+
+    def test_custom_replacements_are_inserted_literally(self):
+        result, changes = apply_pronunciations("Path C", {"C": r"C:\path"})
+        self.assertIn(r"C:\path", result)
+        self.assertEqual(changes[0]["to"], r"C:\path")
 
     def test_dictionary_parser_discards_invalid_rows(self):
         self.assertEqual(parse_custom_dictionary("A = B\ninvalid\n = none"), {"A": "B"})

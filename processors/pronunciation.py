@@ -1,8 +1,8 @@
 from __future__ import annotations
-import json
-from pathlib import Path
 
+import json
 import re
+from pathlib import Path
 
 DICTIONARY_FILE = Path(__file__).resolve().parent.parent / "data" / "pronunciation_dictionary.json"
 
@@ -36,7 +36,10 @@ def apply_pronunciations(text: str, custom: dict[str, str] | None = None) -> tup
     for source in sorted(dictionary, key=len, reverse=True):
         replacement = dictionary[source]
         pattern = re.compile(r"(?<!\w)" + re.escape(source) + r"(?!\w)", re.IGNORECASE)
-        output, count = pattern.subn(replacement, output)
+        # A function replacement inserts the spoken form literally. Passing the
+        # replacement as a string makes re.sub interpret backslashes as group
+        # references, so an entry such as "C:\path" raised re.error.
+        output, count = pattern.subn(lambda _match, value=replacement: value, output)
         if count:
             changes.append({"from": source, "to": replacement, "count": count})
     return output, changes
